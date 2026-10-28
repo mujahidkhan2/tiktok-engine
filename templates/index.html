@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Engine Control Panel</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: white; text-align: center; padding: 50px; }
+        .container { background-color: #1e1e1e; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); display: inline-block; }
+        h1 { color: #ff0050; }
+        .btn { background-color: #ff0050; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background-color: #cc0040; }
+        #status { margin-top: 20px; font-size: 18px; color: #00ffcc; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TikTok Engine Control Panel</h1>
+        <p>Welcome to your private dashboard</p>
+        <button class="btn" onclick="startEngine()">Start Engine</button>
+        <div id="status">Ready to start...</div>
+    </div>
+
+    <script>
+        async function startEngine() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerText = "Processing...";
+            
+            try {
+                const response = await fetch('/run', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({action: 'start'})
+                });
+                const data = await response.json();
+                statusDiv.innerText = data.message;
+            } catch (error) {
+                statusDiv.innerText = "Error connecting to server!";
+            }
+        }
+    </script>
+</body>
+</html>
